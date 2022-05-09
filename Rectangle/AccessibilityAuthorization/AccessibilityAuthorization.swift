@@ -14,6 +14,19 @@ class AccessibilityAuthorization {
     private var accessibilityWindowController: NSWindowController?
     
     public func checkAccessibility(completion: @escaping () -> Void) -> Bool {
+//        let quickMenuWindowController = NSStoryboard(name: "Main", bundle: nil)
+//            .instantiateController(withIdentifier: "QuickMenuWindowController") as? NSWindowController
+//        guard let welcomeWindow = quickMenuWindowController?.window else { return false }
+//        welcomeWindow.minSize = .init(width: 300, height: 300)
+//////        welcomeWindow.delegate = self
+////
+////
+//        NSApp.activate(ignoringOtherApps: true)
+////
+//        let response = NSApp.runModal(for: welcomeWindow)
+//        return false
+        
+        
         if !AXIsProcessTrusted() {
             
             accessibilityWindowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "AccessibilityWindowController") as? NSWindowController
@@ -21,8 +34,10 @@ class AccessibilityAuthorization {
             NSApp.activate(ignoringOtherApps: true)
             accessibilityWindowController?.showWindow(self)
             pollAccessibility(completion: completion)
+            print("Doesn't work")
             return false
         } else {
+            print("Works")
             return true
         }
     }

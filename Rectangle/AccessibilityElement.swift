@@ -69,10 +69,13 @@ class AccessibilityElement {
         return nil
     }
     
-    static func getWindowInfo(at location: CGPoint) -> CGWindowInfo? {
+    static func getWindowInfo(at location: CGPoint?) -> CGWindowInfo? {
         let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements, .optionOnScreenOnly)
         if let windowInfo = CGWindowListCopyWindowInfo(options, 0) as? Array<Dictionary<String,Any>> {
             for infoDict in windowInfo {
+                let ownerName = infoDict[kCGWindowOwnerName as String] as? String
+                let windowName = infoDict[kCGWindowName as String] as? String
+                
                 if let bounds = infoDict[kCGWindowBounds as String] as? [String: CGFloat] {
                     guard let pid = infoDict[kCGWindowOwnerPID as String] as? pid_t,
                           let id = infoDict[kCGWindowNumber as String] as? Int,
@@ -82,8 +85,35 @@ class AccessibilityElement {
                           let h = bounds["Height"]
                     else { continue }
                     let boundsRect = NSMakeRect(x, y, w, h)
-                    if boundsRect.contains(location) {
-                        return CGWindowInfo(id: id, pid: pid, rect: boundsRect)
+                    if location != nil, boundsRect.contains(location!) {
+                        return CGWindowInfo(id: id, pid: pid, rect: boundsRect, ownerName: ownerName, windowName: windowName)
+                    }
+                }
+            }
+        }
+            
+        Logger.log("Unable to obtain window id from location")
+        return nil
+    }
+    
+    static func getWindowInfo(windowId: Int) -> CGWindowInfo? {
+        let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements, .optionOnScreenOnly)
+        if let windowInfo = CGWindowListCopyWindowInfo(options, 0) as? Array<Dictionary<String,Any>> {
+            for infoDict in windowInfo {
+                let ownerName = infoDict[kCGWindowOwnerName as String] as? String
+                let windowName = infoDict[kCGWindowName as String] as? String
+                
+                if let bounds = infoDict[kCGWindowBounds as String] as? [String: CGFloat] {
+                    guard let pid = infoDict[kCGWindowOwnerPID as String] as? pid_t,
+                          let id = infoDict[kCGWindowNumber as String] as? Int,
+                          let x = bounds["X"],
+                          let y = bounds["Y"],
+                          let w = bounds["Width"],
+                          let h = bounds["Height"]
+                    else { continue }
+                    let boundsRect = NSMakeRect(x, y, w, h)
+                    if id == windowId {
+                        return CGWindowInfo(id: id, pid: pid, rect: boundsRect, ownerName: ownerName, windowName: windowName)
                     }
                 }
             }
@@ -425,4 +455,6 @@ struct CGWindowInfo {
     let id: Int
     let pid: pid_t
     let rect: NSRect
+    let ownerName: String?
+    let windowName: String?
 }

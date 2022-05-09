@@ -102,10 +102,27 @@ class WindowManager {
         
         let currentNormalizedRect = AccessibilityElement.normalizeCoordinatesOf(currentWindowRect)
         let currentWindow = Window(id: windowId, rect: currentNormalizedRect)
+
+        let calculationParams = WindowCalculationParameters(
+            window: currentWindow,
+            usableScreens: usableScreens,
+            action: action,
+            lastAction: lastRectangleAction,
+            targetScreenIndex: parameters.targetScreenIndex
+        )
+        
+        if action == .quickMenu {
+            showQuickMenu(
+                activeWindow: frontmostWindowElement,
+                activeWindowId: windowId,
+                executionParameters: parameters,
+                calculationParams: calculationParams
+            )
+            return
+        }
         
         let windowCalculation = WindowCalculationFactory.calculationsByAction[action]
         
-        let calculationParams = WindowCalculationParameters(window: currentWindow, usableScreens: usableScreens, action: action, lastAction: lastRectangleAction)
         guard var calcResult = windowCalculation?.calculate(calculationParams) else {
             NSSound.beep()
             Logger.log("Nil calculation result")
@@ -150,7 +167,7 @@ class WindowManager {
         
         if usableScreens.currentScreen != calcResult.screen {
             frontmostWindowElement.bringToFront(force: true)
-            
+        
             if Defaults.moveCursorAcrossDisplays.userEnabled {
                 let windowCenter = NSMakePoint(NSMidX(resultingRect), NSMidY(resultingRect))
                 CGWarpMouseCursorPosition(windowCenter)
@@ -169,8 +186,44 @@ class WindowManager {
                 }
             }
             
-            Logger.log("\(action.name) | display: \(visibleFrameOfDestinationScreen.debugDescription), calculatedRect: \(newRect.debugDescription), resultRect: \(resultingRect.debugDescription)\(srcDestScreens)")
+            Logger.log("\(action.name) | display: \(visibleFrameOfDestinationScreen.debugDescription), calculatedRect: \(newRect.debugDescription), resultRect: \(resultingRect.debugDescription)\(srcDestScreens) \(AccessibilityElement.getWindowInfo(windowId: windowId))")
+            
+            print("------------------")
+            print()
+            print()
+            print()
+            print("\(action.name) | display: \(visibleFrameOfDestinationScreen.debugDescription), calculatedRect: \(newRect.debugDescription), resultRect: \(resultingRect.debugDescription)\(srcDestScreens) \(AccessibilityElement.getWindowInfo(windowId: windowId))")
         }
+    }
+    
+    private func showQuickMenu(
+        activeWindow: AccessibilityElement,
+        activeWindowId: Int,
+        executionParameters: ExecutionParameters,
+        calculationParams: WindowCalculationParameters
+    ) {
+        let quickMenuWindowController = NSStoryboard(name: "Main", bundle: nil)
+            .instantiateController(withIdentifier: "QuickMenuWindowController") as? NSWindowController
+        guard let quickMenuWindow = quickMenuWindowController?.window else { return }
+        quickMenuWindow.minSize = .init(width: 300, height: 300)
+
+        guard let quickMenuViewController = quickMenuWindow.contentViewController as? QuickMenuViewController else {
+            return
+        }
+        
+//        print(AccessibilityElement.getWindowInfo(windowId: activeWindowId))
+        
+        quickMenuViewController.windowManager = self
+        quickMenuViewController.executionParams = executionParameters
+        quickMenuViewController.calculationParams = calculationParams
+        quickMenuViewController.activeWindow = activeWindow
+        quickMenuViewController.activeWindowId = activeWindowId
+        
+        
+        NSApp.activate(ignoringOtherApps: true)
+        quickMenuWindowController?.showWindow(self)
+
+//        NSApp.runModal(for: quickMenuWindow)
     }
 }
 
@@ -188,14 +241,16 @@ struct ExecutionParameters {
     let windowElement: AccessibilityElement?
     let windowId: Int?
     let source: ExecutionSource
+    let targetScreenIndex: Int?
 
-    init(_ action: WindowAction, updateRestoreRect: Bool = true, screen: NSScreen? = nil, windowElement: AccessibilityElement? = nil, windowId: Int? = nil, source: ExecutionSource = .keyboardShortcut) {
+    init(_ action: WindowAction, updateRestoreRect: Bool = true, screen: NSScreen? = nil, windowElement: AccessibilityElement? = nil, windowId: Int? = nil, source: ExecutionSource = .keyboardShortcut, targetScreenIndex: Int? = nil) {
         self.action = action
         self.updateRestoreRect = updateRestoreRect
         self.screen = screen
         self.windowElement = windowElement
         self.windowId = windowId
         self.source = source
+        self.targetScreenIndex = targetScreenIndex
     }
 }
 

@@ -10,7 +10,7 @@ import Cocoa
 
 class Logger {
     
-    static var logging = false
+    static var logging = true
     
     static private var logWindowController: LogWindowController?
     
@@ -20,7 +20,7 @@ class Logger {
         }
         NSApp.activate(ignoringOtherApps: true)
         logWindowController?.showWindow(sender)
-        logging = true
+        logging = false
     }
     
     static func log(_ string: String) {

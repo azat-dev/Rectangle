@@ -80,7 +80,8 @@ enum WindowAction: Int {
     bottomCenterRightEighth = 64,
     bottomRightEighth = 65,
     tileAll = 66,
-    cascadeAll = 67
+    cascadeAll = 67,
+    quickMenu = 68
 
     // Order matters here - it's used in the menu
     static let active = [leftHalf, rightHalf, centerHalf, topHalf, bottomHalf,
@@ -98,7 +99,8 @@ enum WindowAction: Int {
                          topLeftThird, topRightThird, bottomLeftThird, bottomRightThird,
                          topLeftEighth, topCenterLeftEighth, topCenterRightEighth, topRightEighth,
                          bottomLeftEighth, bottomCenterLeftEighth, bottomCenterRightEighth, bottomRightEighth,
-                         tileAll, cascadeAll
+                         tileAll, cascadeAll,
+                         quickMenu
     ]
 
     func post() {
@@ -189,6 +191,7 @@ enum WindowAction: Int {
         case .bottomRightEighth: return "bottomRightEighth"
         case .tileAll: return "tileAll"
         case .cascadeAll: return "cascadeAll"
+        case .quickMenu: return "quickMenu"
         }
     }
 
@@ -314,6 +317,9 @@ enum WindowAction: Int {
         case .bottomRightSixth:
             key = "m2F-eA-g7w.title"
             value = "Bottom Right Sixth"
+        case .quickMenu:
+            key = "hX5-0V-ONs.title"
+            value = "Quick Menu"
         case .topLeftNinth, .topCenterNinth, .topRightNinth, .middleLeftNinth, .middleCenterNinth, .middleRightNinth, .bottomLeftNinth, .bottomCenterNinth, .bottomRightNinth:
             return nil
         case .topLeftThird, .topRightThird, .bottomLeftThird, .bottomRightThird:
@@ -349,14 +355,14 @@ enum WindowAction: Int {
 
     var spectacleDefault: Shortcut? {
         switch self {
-        case .leftHalf: return Shortcut( cmd|alt, kVK_LeftArrow )
-        case .rightHalf: return Shortcut( cmd|alt, kVK_RightArrow )
-        case .maximize: return Shortcut( cmd|alt, kVK_ANSI_F )
+        case .leftHalf: return Shortcut( cmd, kVK_F18 )
+        case .rightHalf: return Shortcut( cmd, kVK_F20 )
+        case .maximize: return Shortcut( cmd, kVK_F15 )
         case .maximizeHeight: return Shortcut( ctrl|alt|shift, kVK_UpArrow )
-        case .previousDisplay: return Shortcut( ctrl|alt|cmd, kVK_LeftArrow )
-        case .nextDisplay:  return Shortcut( ctrl|alt|cmd, kVK_RightArrow )
+        case .previousDisplay: return Shortcut( cmd, kVK_F13 )
+        case .nextDisplay: return Shortcut( cmd, kVK_F16 )
         case .larger: return Shortcut( ctrl|alt|shift, kVK_RightArrow )
-        case .smaller: return Shortcut( ctrl|alt|shift, kVK_LeftArrow )
+        case .smaller: return Shortcut( cmd, kVK_F14 )
         case .bottomHalf: return Shortcut( cmd|alt, kVK_DownArrow )
         case .topHalf: return Shortcut( cmd|alt, kVK_UpArrow )
         case .center: return Shortcut( alt|cmd, kVK_ANSI_C )
@@ -365,26 +371,27 @@ enum WindowAction: Int {
         case .topLeft: return Shortcut( ctrl|cmd, kVK_LeftArrow )
         case .topRight: return Shortcut( ctrl|cmd, kVK_RightArrow )
         case .restore: return Shortcut( ctrl|alt, kVK_Delete)
+        case .quickMenu: return Shortcut( cmd, kVK_F17)
         default: return nil
         }
     }
 
     var alternateDefault: Shortcut? {
         switch self {
-        case .leftHalf: return Shortcut( ctrl|alt, kVK_LeftArrow )
-        case .rightHalf: return Shortcut( ctrl|alt, kVK_RightArrow )
+        case .leftHalf: return Shortcut( cmd, kVK_F18 )
+        case .rightHalf: return Shortcut( cmd, kVK_F20 )
         case .bottomHalf: return Shortcut( ctrl|alt, kVK_DownArrow )
         case .topHalf: return Shortcut( ctrl|alt, kVK_UpArrow )
         case .bottomLeft: return Shortcut( ctrl|alt, kVK_ANSI_J )
         case .bottomRight: return Shortcut( ctrl|alt, kVK_ANSI_K )
         case .topLeft: return Shortcut( ctrl|alt, kVK_ANSI_U )
         case .topRight: return Shortcut( ctrl|alt, kVK_ANSI_I )
-        case .maximize: return Shortcut( ctrl|alt, kVK_Return )
+        case .maximize: return Shortcut( cmd, kVK_F15 )
         case .maximizeHeight: return Shortcut( ctrl|alt|shift, kVK_UpArrow )
-        case .previousDisplay: return Shortcut( ctrl|alt|cmd, kVK_LeftArrow )
-        case .nextDisplay: return Shortcut( ctrl|alt|cmd, kVK_RightArrow )
+        case .previousDisplay: return Shortcut( cmd, kVK_F13 )
+        case .nextDisplay: return Shortcut( cmd, kVK_F16 )
         case .larger: return Shortcut( ctrl|alt, kVK_ANSI_Equal )
-        case .smaller: return Shortcut( ctrl|alt, kVK_ANSI_Minus )
+        case .smaller: return Shortcut( cmd, kVK_F14 )
         case .center: return Shortcut( ctrl|alt, kVK_ANSI_C )
         case .restore: return Shortcut( ctrl|alt, kVK_Delete)
         case .firstThird: return Shortcut( ctrl|alt, kVK_ANSI_D )
@@ -392,6 +399,7 @@ enum WindowAction: Int {
         case .centerThird: return Shortcut( ctrl|alt, kVK_ANSI_F )
         case .lastTwoThirds: return Shortcut( ctrl|alt, kVK_ANSI_T )
         case .lastThird: return Shortcut( ctrl|alt, kVK_ANSI_G )
+        case .quickMenu: return Shortcut( cmd, kVK_F17)
         default: return nil
         }
     }
@@ -461,6 +469,7 @@ enum WindowAction: Int {
         case .specified, .reverseAll: return NSImage()
         case .tileAll: return NSImage()
         case .cascadeAll: return NSImage()
+        case .quickMenu: return NSImage()
         }
     }
 
@@ -500,7 +509,7 @@ enum WindowAction: Int {
             return Defaults.applyGapsToMaximize.userDisabled ? .none : .both;
         case .maximizeHeight:
             return Defaults.applyGapsToMaximizeHeight.userDisabled ? .none : .vertical;
-        case .almostMaximize, .previousDisplay, .nextDisplay, .larger, .smaller, .center, .restore, .specified, .reverseAll, .tileAll, .cascadeAll:
+        case .almostMaximize, .previousDisplay, .nextDisplay, .larger, .smaller, .center, .restore, .specified, .reverseAll, .tileAll, .cascadeAll, .quickMenu:
             return .none
         }
     }

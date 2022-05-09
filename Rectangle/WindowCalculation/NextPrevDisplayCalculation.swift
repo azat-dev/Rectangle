@@ -22,6 +22,15 @@ class NextPrevDisplayCalculation: WindowCalculation {
         } else if params.action == .previousDisplay {
             screen = usableScreens.adjacentScreens?.prev
         }
+        
+        if let targetScreenIndex = params.targetScreenIndex {
+            let screenDetection = ScreenDetection()
+            let screens = screenDetection.order(screens: NSScreen.screens)
+            
+            if targetScreenIndex < screens.count {
+                screen = screens[targetScreenIndex]
+            }
+        }
 
         if let screen = screen {
             let rectParams = params.asRectParams(visibleFrame: screen.adjustedVisibleFrame)
@@ -52,7 +61,8 @@ class NextPrevDisplayCalculation: WindowCalculation {
     }
     
     override func calculateRect(_ params: RectCalculationParameters) -> RectResult {
-        if params.lastAction?.action == .maximize && !Defaults.autoMaximize.userDisabled {
+        let maximize = true || params.lastAction?.action == .maximize && !Defaults.autoMaximize.userDisabled
+        if maximize {
             let rectResult = WindowCalculationFactory.maximizeCalculation.calculateRect(params)
             return RectResult(rectResult.rect, resultingAction: .maximize)
         }

@@ -105,6 +105,11 @@
 		98FA9497235A2D7600F95C4F /* RepeatedExecutionsCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA9496235A2D7600F95C4F /* RepeatedExecutionsCalculation.swift */; };
 		98FD7C5F2687BC14009E9DAF /* FirstThreeFourthsCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD7C5E2687BC14009E9DAF /* FirstThreeFourthsCalculation.swift */; };
 		98FD7C612687BCB6009E9DAF /* LastThreeFourthsCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD7C602687BCB6009E9DAF /* LastThreeFourthsCalculation.swift */; };
+		AA36C1F22828E942001A6BF6 /* QuickMenuWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA36C1F12828E942001A6BF6 /* QuickMenuWindow.swift */; };
+		AA50517D28283BC400566D9C /* SuggestionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA50517C28283BC400566D9C /* SuggestionItemView.swift */; };
+		AA50517F28283CA800566D9C /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA50517E28283CA800566D9C /* Label.swift */; };
+		AA50518128283CBE00566D9C /* SuggestionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA50518028283CBE00566D9C /* SuggestionItem.swift */; };
+		AA666C882828199100C8D360 /* QuickMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA666C872828199100C8D360 /* QuickMenuViewController.swift */; };
 		CC0B7937429AC28C21ABF5B4 /* Pods_RectangleLauncher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D8480CC730811C953FC1B6 /* Pods_RectangleLauncher.framework */; };
 		D0423D8327A8D31D008A4894 /* HorizontalThirdsRepeated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0423D8227A8D31D008A4894 /* HorizontalThirdsRepeated.swift */; };
 		D04CE3002781794E00BD47B3 /* TopLeftNinthCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04CE2FF2781794E00BD47B3 /* TopLeftNinthCalculation.swift */; };
@@ -302,6 +307,11 @@
 		98FE8975246E79A600871535 /* zh-Hant-TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant-TW"; path = "zh-Hant-TW.lproj/Main.strings"; sourceTree = "<group>"; };
 		98FE8976246E79C400871535 /* zh-Hant-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant-HK"; path = "zh-Hant-HK.lproj/Main.strings"; sourceTree = "<group>"; };
 		98FE8977246E79C400871535 /* zh-Hant-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant-HK"; path = "zh-Hant-HK.lproj/Main.strings"; sourceTree = "<group>"; };
+		AA36C1F12828E942001A6BF6 /* QuickMenuWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMenuWindow.swift; sourceTree = "<group>"; };
+		AA50517C28283BC400566D9C /* SuggestionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionItemView.swift; sourceTree = "<group>"; };
+		AA50517E28283CA800566D9C /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		AA50518028283CBE00566D9C /* SuggestionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionItem.swift; sourceTree = "<group>"; };
+		AA666C872828199100C8D360 /* QuickMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMenuViewController.swift; sourceTree = "<group>"; };
 		BFFF93EBEA6E2FF7245A7CF5 /* Pods-Rectangle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rectangle.release.xcconfig"; path = "Target Support Files/Pods-Rectangle/Pods-Rectangle.release.xcconfig"; sourceTree = "<group>"; };
 		D0423D8227A8D31D008A4894 /* HorizontalThirdsRepeated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalThirdsRepeated.swift; sourceTree = "<group>"; };
 		D04CE2FF2781794E00BD47B3 /* TopLeftNinthCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLeftNinthCalculation.swift; sourceTree = "<group>"; };
@@ -554,6 +564,7 @@
 				9824703C22B13C7E0037B409 /* AccessibilityElement.swift */,
 				9824703E22B13FBC0037B409 /* ScreenDetection.swift */,
 				98C275662322E2DA009B9292 /* WindowHistory.swift */,
+				AA50517928283B7300566D9C /* QuickMenu */,
 				9824704022B186D00037B409 /* WindowManager.swift */,
 				98987AA62391890C00BE72C4 /* Logging */,
 				98910B3C2311304D0066EC23 /* PrefsWindow */,
@@ -631,6 +642,18 @@
 				98D4B6C425B6256C009C7BF6 /* TodoManager.swift */,
 			);
 			path = TodoMode;
+			sourceTree = "<group>";
+		};
+		AA50517928283B7300566D9C /* QuickMenu */ = {
+			isa = PBXGroup;
+			children = (
+				AA666C872828199100C8D360 /* QuickMenuViewController.swift */,
+				AA50518028283CBE00566D9C /* SuggestionItem.swift */,
+				AA50517E28283CA800566D9C /* Label.swift */,
+				AA36C1F12828E942001A6BF6 /* QuickMenuWindow.swift */,
+				AA50517C28283BC400566D9C /* SuggestionItemView.swift */,
+			);
+			path = QuickMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -909,7 +932,9 @@
 				98A009AB2512491300CFBF0C /* CenterHalfCalculation.swift in Sources */,
 				D0CFE33327A8CCB1004DA47B /* TopRightThirdCalculation.swift in Sources */,
 				9821403522B38A2B00ABFB3F /* UpperRightCalculation.swift in Sources */,
+				AA36C1F22828E942001A6BF6 /* QuickMenuWindow.swift in Sources */,
 				9824702F22AFA2E50037B409 /* AccessibilityAuthorization.swift in Sources */,
+				AA666C882828199100C8D360 /* QuickMenuViewController.swift in Sources */,
 				988D066322EB4CA5004EABD7 /* FirstTwoThirdsCalculation.swift in Sources */,
 				D04CE30A27817A9F00BD47B3 /* MiddleRightNinthCalculation.swift in Sources */,
 				98BEFA482620DEDD00D9D54F /* NSImageExtension.swift in Sources */,
@@ -960,6 +985,7 @@
 				9824704D22B189250037B409 /* WindowCalculation.swift in Sources */,
 				98C1008E230B9EF6006E5344 /* NextPrevDisplayCalculation.swift in Sources */,
 				9824703122AFA8470037B409 /* RectangleStatusItem.swift in Sources */,
+				AA50517D28283BC400566D9C /* SuggestionItemView.swift in Sources */,
 				D04CE31027817ABE00BD47B3 /* BottomRightNinthCalculation.swift in Sources */,
 				98A009B92512538D00CFBF0C /* TopRightSixthCalculation.swift in Sources */,
 				98C275672322E2DA009B9292 /* WindowHistory.swift in Sources */,
@@ -970,7 +996,9 @@
 				989DA30E243FC0DF008C7AA4 /* WelcomeViewController.swift in Sources */,
 				98C27561231FFA5F009B9292 /* SnappingManager.swift in Sources */,
 				9824703722B0F3200037B409 /* WindowAction.swift in Sources */,
+				AA50518128283CBE00566D9C /* SuggestionItem.swift in Sources */,
 				9821402922B3889100ABFB3F /* LowerLeftCalculation.swift in Sources */,
+				AA50517F28283CA800566D9C /* Label.swift in Sources */,
 				9821402122B3884600ABFB3F /* BottomHalfCalculation.swift in Sources */,
 				98910B42231476B30066EC23 /* PrefsViewController.swift in Sources */,
 				9851A5C3251BEBA300ECF78C /* OrientationAware.swift in Sources */,
